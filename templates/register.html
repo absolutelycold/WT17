@@ -15,6 +15,43 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col" style="text-align:center;">
+                {% if status == 1 %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>警告!</strong> 昵称已存在!
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% elif status == 2 %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>警告!</strong> 账号已存在!
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% elif status == 3 %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>错误!</strong> 两次输入密码不匹配!
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% elif status == 4 %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>错误!</strong> 请勿将表单留空!!
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                 {% elif status == 5 %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>注册成功!</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+
                 <h1><b>Register</b></h1>
             </div>
             <div class="col-2"></div>
@@ -24,13 +61,21 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 col-xs-12 col-sm-12">
-                    <form>
+                    <form method="post" action="">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">昵称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Default"
+                                   aria-describedby="inputGroup-sizing-default" name="name">
+                        </div>
+
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">账号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             </div>
                             <input type="text" class="form-control" aria-label="Default"
-                                   aria-describedby="inputGroup-sizing-default">
+                                   aria-describedby="inputGroup-sizing-default" name="account">
                         </div>
 
                         <div class="input-group mb-3">
@@ -38,7 +83,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-default">密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             </div>
                             <input type="password" class="form-control" aria-label="Default"
-                                   aria-describedby="inputGroup-sizing-default">
+                                   aria-describedby="inputGroup-sizing-default" name="password">
                         </div>
 
                         <div class="input-group mb-3">
@@ -46,7 +91,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-default">确认密码</span>
                             </div>
                             <input type="password" class="form-control" aria-label="Default"
-                                   aria-describedby="inputGroup-sizing-default">
+                                   aria-describedby="inputGroup-sizing-default" name="repassword">
                         </div>
 
 
