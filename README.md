@@ -3,6 +3,8 @@
 ```
 pip install -r requirments.txt
 ```
+* 配置文件为config.py, 可在此文件中设置数据库配置以及Debug模式等
+
 * 部署数据库
 ```angular2html
 python manager.py db init
