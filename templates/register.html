@@ -1,0 +1,62 @@
+{% extends 'head.html' %}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col" style="text-align:center;"><h4>Login Form</h4></div>
+            <div class="col"></div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col" style="text-align:center;">
+                <h1><b>Register</b></h1>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <hr/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 col-xs-12 col-sm-12">
+                    <form>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">账号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Default"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+                            <input type="password" class="form-control" aria-label="Default"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">确认密码</span>
+                            </div>
+                            <input type="password" class="form-control" aria-label="Default"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+
+
+                        <hr/>
+
+                        <input type="submit" class="btn btn-outline-secondary btn-block" value="确认注册"/>
+                    </form>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
