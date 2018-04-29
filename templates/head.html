@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
+    <!-- Icon Css -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
     <!-- JS -->
     <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
@@ -49,19 +52,37 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </ul>
+            {% if user %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('modifyInfo') }}"><span class="fas fa-user-circle"></span>&nbsp; {{ user.name }}</a>
+                    </li>
 
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login') }}">登录</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('register') }}">注册</a>
-                </li>
-            </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}"><span class="fas fa-shopping-cart">&nbsp; Cart</span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}"><span class="fas fa-sign-out-alt"></span>&nbsp;Logout</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}"><span class="fas fa-sign-in-alt"></span>&nbsp;登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}"><span class="fas fa-registered"></span>&nbsp;注册</a>
+                    </li>
+                </ul>
+            {% endif %}
+
         </div>
     </nav>
 
-    {% block content %}{% endblock %}
 </div>
+
+{% block content %}{% endblock %}
+
 </body>
 </html>

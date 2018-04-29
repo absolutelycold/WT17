@@ -7,3 +7,4 @@ class Users(db.Model):
     name = db.Column(db.String(50), nullable=False)
     account = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.Text, nullable=False)
