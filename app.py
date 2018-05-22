@@ -9,7 +9,7 @@ app.config.from_object(config)
 db.init_app(app)
 
 
-# Create a deractor to check log status
+# Create a decorator to check log status
 def check_login(fun):
     @functools.wraps(fun)
     def wrap(*args, **kwargs):
@@ -28,14 +28,19 @@ def check_user():
     user_account = session.get('user_account')
     user = Users.query.filter(Users.account == user_account).first()
     if user:
-        return {'user': user}
+        return {'user': user, 'admin': user.is_admin}
     else:
         return {'user': ''}
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    if request.method == 'GET':
+        return render_template('index.html')
+    else:
+        good_name = request.form.get('good_name')
+        good_desc = request.form.get('good_desc')
+        print(good_name + '  ' + good_desc)
 
 
 @app.route('/login', methods=['GET', 'POST'])

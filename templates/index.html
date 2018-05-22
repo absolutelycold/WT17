@@ -24,7 +24,8 @@
                          alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100 h-100" src="{{ url_for('static', filename='img/big_img/github.png') }}" alt="Third slide">
+                    <img class="d-block w-100 h-100" src="{{ url_for('static', filename='img/big_img/github.png') }}"
+                         alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -37,4 +38,37 @@
             </a>
         </div>
     </div>
+    {% if admin == 1 %}
+        <div class="container">
+            <div class="align-content-center">
+                <form id="1">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Good Name</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                               placeholder="Enter Good Name" name="good_name">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Good Description</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="good_desc"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customFile">Upload Picture</label>
+                        <div class="custom-file">
+
+                            <input type="file" class="custom-file-input" id="customFile" name="file">
+                            <label class="custom-file-label" for="customFile">Choose Picture</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">ADD</button>
+                </form>
+            </div>
+
+        </div>
+    {% endif %}
+
+
 {% endblock %}
