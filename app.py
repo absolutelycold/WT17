@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for, g
 import config
 from exts import db
-from models import Users
+from models import Users, Goods
 import functools
 
 app = Flask(__name__)
@@ -34,13 +34,21 @@ def check_user():
 
 
 @app.route('/', methods=['GET', 'POST'])
-def index():
+@app.route('/index/', methods=['GET', 'POST'])
+@app.route('/index/<int:page>', methods=['GET', 'POST'])
+def index(page=1):
     if request.method == 'GET':
-        return render_template('index.html')
-    else:
+        goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
+        return render_template('index.html', goods=goods)
+    elif request.method == 'POST':
         good_name = request.form.get('good_name')
         good_desc = request.form.get('good_desc')
-        print(good_name + '  ' + good_desc)
+        print(good_desc + "   " + good_name)
+        new_good = Goods(good_name=good_name, good_desc=good_desc)
+        db.session.add(new_good)
+        db.session.commit()
+        goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
+        return render_template('index.html', goods=goods)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -169,6 +177,15 @@ def modifyInfo():
                     status = 1
                     return render_template('user_page.html', status=status, color='success', alert='修改昵称成功',
                                            message='请殿下查阅.')
+
+
+@app.route('/search/', methods=['GET'])
+@app.route('/search/<int:page>', methods=['GET'])
+def search(page=1):
+    search_str = request.args.get('search')
+    search_goods = Goods.query.filter(Goods.good_name.like('%' + search_str + '%')).paginate(page, 12,
+                                                                                             False)
+    return render_template('search.html', search_goods=search_goods, search_str=search_str)
 
 
 if __name__ == '__main__':
