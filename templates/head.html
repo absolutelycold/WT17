@@ -40,14 +40,20 @@
                         分类
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
+
+                        {% for class in classes %}
+                            <a class="dropdown-item" href="{{ url_for('class_page', name=class.class_name) }}">{{ class.class_name }}</a>
+                        {% endfor %}
+
+                        <!--
                         <a class="dropdown-item" href="#">Another action</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
+                        -->
                     </div>
                 </li>
 
-                <form class="form-inline" method="get" action="/search/" id="search">
+                <form class="form-inline" method="post" action="{{ url_for('search') }}" id="search">
                     <input class="form-control mr-sm-2 ml-lg-3" type="search" placeholder="Search" aria-label="Search" name="search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
@@ -59,7 +65,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}"><span class="fas fa-shopping-cart">&nbsp; Cart</span></a>
+                        <a class="nav-link" href="{{ url_for('cart') }}"><span class="fas fa-shopping-cart">&nbsp; Cart</span></a>
                     </li>
 
                     <li class="nav-item">

@@ -1,3 +1,6 @@
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
+
 from exts import db
 
 
@@ -14,6 +17,22 @@ class Users(db.Model):
 class Goods(db.Model):
     __tablename__ = 'goods'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    good_price = db.Column(db.Integer, nullable=False, default=0)
     good_name = db.Column(db.String(50), nullable=False, default='No name')
     good_desc = db.Column(db.String(200), nullable=False, default='No description')
     picture_url = db.Column(db.String(200), nullable=True)
+    class_id = db.Column(db.Integer)
+
+
+class Goods_class(db.Model):
+    __tablename__ = 'goods_class'
+    class_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    class_name = db.Column(db.String(50), nullable=False)
+
+
+class Cart(db.Model):
+    __tablename__ = 'cart'
+    cart_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    goods_id = db.Column(db.Integer, nullable=False)
+    goods_num = db.Column(db.Integer, nullable=False)

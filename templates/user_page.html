@@ -23,6 +23,12 @@
                        aria-controls="v-pills-messages" aria-selected="false">地址修改</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
                        aria-controls="v-pills-settings" aria-selected="false">昵称修改</a>
+                    {% if admin == 1 %}
+                        <a class="nav-link" id="v-pills-add-tab" data-toggle="pill" href="#v-pills-add" role="tab"
+                           aria-controls="v-pills-add" aria-selected="false">添加物品</a>
+                        <a class="nav-link" id="v-pills-class-tab" data-toggle="pill" href="#v-pills-class" role="tab"
+                           aria-controls="v-pills-class" aria-selected="false">物品分类</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -121,10 +127,96 @@
                                 </div>
 
                                 <input type="text" name="way" value="Alia" class="invisible">
-                                <button type="submit" class="btn btn-primary float-right" >确认修改</button>
+                                <button type="submit" class="btn btn-primary float-right">确认修改</button>
                             </form>
                         </div>
                     </div>
+
+                    <!-- 管理员功能  -->
+                    {% if admin == 1 %}
+                        <div class="tab-pane fade" id="v-pills-add" role="tabpanel"
+                             aria-labelledby="v-pills-add-tab">
+                            <h1>物品添加</h1>
+                            <hr>
+                            <div class="row ml-2">
+
+
+                                <form id="4" method="post" action="">
+                                    <input type="text" name="way" value="add_good" class="invisible">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Good Name</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                               placeholder="Enter Good Name" name="good_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Good
+                                                Description</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                      rows="3"
+                                                      name="good_desc"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Good Price</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                               placeholder="Enter the price" name="good_price">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="customFile">Upload Picture</label>
+                                        <div class="custom-file">
+
+                                            <input type="file" class="custom-file-input" id="customFile"
+                                                   name="file">
+                                            <label class="custom-file-label" for="customFile">Choose
+                                                Picture</label>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">ADD</button>
+                                </form>
+
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-class" role="tabpanel"
+                             aria-labelledby="v-pills-class-tab">
+                            <h1>物品分类</h1>
+
+                            <hr>
+                            <div class="row ml-2">
+
+
+                                <form id="5" method="post" action="">
+                                    <input type="text" name="way" value="class" class="invisible">
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">选择物品</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="good_name">
+                                            {% for good in all_goods %}
+                                                <option value="{{ good.id }}">{{ good.good_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">物品分类</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput1"
+                                               placeholder="请输入分类名称" name="good_class">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">ADD</button>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    {% endif %}
+
+
                 </div>
             </div>
         </div>

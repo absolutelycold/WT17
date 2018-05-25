@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for, g
 import config
 from exts import db
-from models import Users, Goods
+from models import Users, Goods, Goods_class, Cart
 import functools
 
 app = Flask(__name__)
@@ -23,14 +23,26 @@ def check_login(fun):
 
 
 # 从session中取出登录信息, 并设置为上下文变量
+# 分类信息也要设置为上下文变量
+# 添加所有物品到上下文变量
+# 添加Total Price
 @app.context_processor
 def check_user():
     user_account = session.get('user_account')
     user = Users.query.filter(Users.account == user_account).first()
+    classes = Goods_class.query.filter().all()
+    all_goods = Goods.query.filter().all()
+
     if user:
-        return {'user': user, 'admin': user.is_admin}
+        user_goods = Cart.query.filter(Cart.user_id == user.id).all()
+        total_price = 0
+        for good in user_goods:
+            total_price += int(good.goods_num) * int(get_good(good.goods_id).good_price)
+
+        return {'user': user, 'admin': user.is_admin, 'classes': classes, 'all_goods': all_goods,
+                'total_price': total_price}
     else:
-        return {'user': ''}
+        return {'user': '', 'classes': classes, 'all_goods': all_goods}
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -41,14 +53,26 @@ def index(page=1):
         goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
         return render_template('index.html', goods=goods)
     elif request.method == 'POST':
-        good_name = request.form.get('good_name')
-        good_desc = request.form.get('good_desc')
-        print(good_desc + "   " + good_name)
-        new_good = Goods(good_name=good_name, good_desc=good_desc)
-        db.session.add(new_good)
-        db.session.commit()
-        goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
-        return render_template('index.html', goods=goods)
+        user_account = session.get('user_account')
+        if user_account:
+            user = Users.query.filter(Users.account == user_account).first()
+            user_id = user.id
+            good_id = request.form.get('good_id')
+            check_exist = Cart.query.filter(Cart.user_id == user_id).filter(Cart.goods_id == good_id).first()
+            if check_exist:
+                check_exist.goods_num = check_exist.goods_num + 1
+                db.session.commit()
+            else:
+                new_cart = Cart(user_id=user_id, goods_id=good_id, goods_num=1)
+                db.session.add(new_cart)
+                db.session.commit()
+            goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
+            return render_template('index.html', goods=goods, status=1, color='success', alert='添加到购物车成功!')
+        else:
+            return redirect(url_for('login'))
+
+    goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
+    return render_template('index.html', goods=goods)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -177,15 +201,147 @@ def modifyInfo():
                     status = 1
                     return render_template('user_page.html', status=status, color='success', alert='修改昵称成功',
                                            message='请殿下查阅.')
+        elif way == 'class':
+            selected_good = request.form.get('good_name')
+            class_name = request.form.get('good_class')
+            # print(selected_good + '   ' + class_name)
+            # Firstly, we add a new class if it didn't exist
+            check_exist = Goods_class.query.filter(Goods_class.class_name == class_name).first()
+            # Then get the data of the selected good
+            good = Goods.query.filter(Goods.id == selected_good).first()
+            if check_exist:
+                class_id = check_exist.class_id
+                good.class_id = class_id
+                db.session.commit()
+            else:
+                # Add new class
+                new_class = Goods_class(class_name=class_name)
+                db.session.add(new_class)
+                db.session.commit()
+                # Modify the good's class
+                good.class_id = Goods_class.query.filter(Goods_class.class_name == class_name).first().class_id
+                db.session.commit()
+            return render_template('user_page.html', status=1, color='success', alert='添加分类成功。')
+        elif way == 'add_good':
+            good_name = request.form.get('good_name')
+            good_desc = request.form.get('good_desc')
+            good_price = request.form.get('good_price')
+            new_good = Goods(good_name=good_name, good_desc=good_desc, good_price=good_price)
+            db.session.add(new_good)
+            db.session.commit()
+            return render_template('user_page.html', status=1, color='success', alert='物品添加成功。')
 
 
-@app.route('/search/', methods=['GET'])
-@app.route('/search/<int:page>', methods=['GET'])
-def search(page=1):
-    search_str = request.args.get('search')
-    search_goods = Goods.query.filter(Goods.good_name.like('%' + search_str + '%')).paginate(page, 12,
-                                                                                             False)
-    return render_template('search.html', search_goods=search_goods, search_str=search_str)
+@app.route('/search/', methods=['POST', 'GET'])
+@app.route('/search/<search_strin>/', methods=['POST', 'GET'])
+@app.route('/search/<search_str>/<int:page>', methods=['POST', 'GET'])
+def search(page=1, search_strin=''):
+    way = request.form.get('way')
+    search_str = request.form.get('search')
+    if way == 'add':
+        user_account = session.get('user_account')
+        if user_account:
+            user = Users.query.filter(Users.account == user_account).first()
+            user_id = user.id
+            good_id = request.form.get('good_id')
+            check_exist = Cart.query.filter(Cart.user_id == user_id).filter(Cart.goods_id == good_id).first()
+            if check_exist:
+                check_exist.goods_num = check_exist.goods_num + 1
+                db.session.commit()
+            else:
+                new_cart = Cart(user_id=user_id, goods_id=good_id, goods_num=1)
+                db.session.add(new_cart)
+                db.session.commit()
+            search_goods = Goods.query.filter(Goods.good_name.like('%''%')).paginate(page, 6,
+                                                                                                     False)
+            return render_template('search.html', search_goods=search_goods, search_string=search_str, status=1,
+                                   color='success', alert='添加到购物车成功!')
+        else:
+            return redirect(url_for('login'))
+
+    else:
+        search_goods = Goods.query.filter(Goods.good_name.like('%' + search_str + '%')).paginate(page, 6,
+                                                                                                 False)
+        return render_template('search.html', search_goods=search_goods, search_string=search_str)
+
+
+@app.route('/class/<name>/', methods=['GET', 'POST'])
+@app.route('/class/<name>/<int:page>/', methods=['GET', 'POST'])
+def class_page(name, page=1):
+    if request.method == 'GET':
+        # firstly, get the class id
+        class_id = Goods_class.query.filter(Goods_class.class_name == name).first().class_id
+        # Then, select * from goods where class_id = class_id
+        class_goods = Goods.query.filter(Goods.class_id == class_id).paginate(page, 6, False)
+        return render_template('class_page.html', class_goods=class_goods, class_name=name)
+    elif request.method == 'POST':
+        user_account = session.get('user_account')
+        if user_account:
+            user = Users.query.filter(Users.account == user_account).first()
+            user_id = user.id
+            good_id = request.form.get('good_id')
+            check_exist = Cart.query.filter(Cart.user_id == user_id).filter(Cart.goods_id == good_id).first()
+            if check_exist:
+                check_exist.goods_num = check_exist.goods_num + 1
+                db.session.commit()
+            else:
+                new_cart = Cart(user_id=user_id, goods_id=good_id, goods_num=1)
+                db.session.add(new_cart)
+                db.session.commit()
+            goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
+
+            class_id = Goods_class.query.filter(Goods_class.class_name == name).first().class_id
+            class_goods = Goods.query.filter(Goods.class_id == class_id).paginate(page, 6, False)
+            return render_template('class_page.html', class_goods=class_goods, class_name=name, status=1,
+                                   color='success', alert='添加到购物车成功!')
+        else:
+            return redirect(url_for('login'))
+
+
+@app.route('/cart/', methods=['POST', 'GET'])
+@check_login
+def cart():
+    if request.method == 'GET':
+        user_account = session.get('user_account')
+        user_id = Users.query.filter(Users.account == user_account).first().id
+        user_goods = Cart.query.filter(Cart.user_id == user_id).all()
+        return render_template('cart.html', user_goods=user_goods)
+    elif request.method == 'POST':
+        user_account = session.get('user_account')
+        user_id = Users.query.filter(Users.account == user_account).first().id
+        good_id = request.form.get('good_id')
+        way = request.form.get('way')
+        if way == 'delete':
+            delete_good = Cart.query.filter(Cart.user_id == user_id).filter(Cart.goods_id == good_id).first()
+            db.session.delete(delete_good)
+            db.session.commit()
+            user_goods = Cart.query.filter(Cart.user_id == user_id).all()
+            return render_template('cart.html', user_goods=user_goods)
+        if way == 'minus':
+            minus_good = Cart.query.filter(Cart.user_id == user_id).filter(Cart.goods_id == good_id).first()
+            if minus_good.goods_num > 0:
+                minus_good.goods_num = minus_good.goods_num - 1
+                db.session.commit()
+            user_goods = Cart.query.filter(Cart.user_id == user_id).all()
+            return render_template('cart.html', user_goods=user_goods)
+        if way == 'plus':
+            plus_good = Cart.query.filter(Cart.user_id == user_id).filter(Cart.goods_id == good_id).first()
+            plus_good.goods_num = plus_good.goods_num + 1
+            db.session.commit()
+            user_goods = Cart.query.filter(Cart.user_id == user_id).all()
+            return render_template('cart.html', user_goods=user_goods)
+        if way == 'pay':
+            user_goods = Cart.query.filter(Cart.user_id == user_id).all()
+            for good in user_goods:
+                db.session.delete(good)
+                db.session.commit()
+            return render_template('cart.html', status='1', color='success', alert='支付成功。')
+
+
+# add a self filter to get goods from goods id
+@app.template_filter('get_good_from_id')
+def get_good(good_id):
+    return Goods.query.filter(Goods.id == good_id).first()
 
 
 if __name__ == '__main__':
