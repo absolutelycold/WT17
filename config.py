@@ -1,5 +1,9 @@
 import os
 
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+POSTS_PER_PAGE = 6
+
 # This is a secrete key for session
 SECRET_KEY = os.urandom(24)
 # Debug mode
@@ -15,6 +19,3 @@ DATABASE = 'flask_study'
 CHARSET = 'utf8'
 SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset={}'.format(DIALECT, DRIVER, USERNAME, PASSWORD, ADDRESS, PORT, DATABASE, CHARSET)
 
-SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-POSTS_PER_PAGE = 6
