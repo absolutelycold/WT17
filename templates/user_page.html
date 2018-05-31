@@ -16,18 +16,18 @@
             <div class="col-2">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-                       aria-controls="v-pills-home" aria-selected="true">用户信息</a>
+                       aria-controls="v-pills-home" aria-selected="true">User Info</a>
                     <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-                       aria-controls="v-pills-profile" aria-selected="false">密码修改</a>
+                       aria-controls="v-pills-profile" aria-selected="false">Password Modify</a>
                     <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-                       aria-controls="v-pills-messages" aria-selected="false">地址修改</a>
+                       aria-controls="v-pills-messages" aria-selected="false">Address Modify</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
-                       aria-controls="v-pills-settings" aria-selected="false">昵称修改</a>
+                       aria-controls="v-pills-settings" aria-selected="false">Name Modify</a>
                     {% if admin == 1 %}
                         <a class="nav-link" id="v-pills-add-tab" data-toggle="pill" href="#v-pills-add" role="tab"
-                           aria-controls="v-pills-add" aria-selected="false">添加物品</a>
+                           aria-controls="v-pills-add" aria-selected="false">Add things</a>
                         <a class="nav-link" id="v-pills-class-tab" data-toggle="pill" href="#v-pills-class" role="tab"
-                           aria-controls="v-pills-class" aria-selected="false">物品分类</a>
+                           aria-controls="v-pills-class" aria-selected="false">Classify things</a>
                     {% endif %}
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                          aria-labelledby="v-pills-home-tab">
-                        <h1>用户信息</h1>
+                        <h1>User Info</h1>
                         <hr>
                         <div class="card border-secondary" style="max-width: 18rem;">
                             <div class="card-header">ID Card</div>
@@ -49,13 +49,13 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                          aria-labelledby="v-pills-profile-tab">
-                        <h1>密码修改</h1>
+                        <h1>Password Modify</h1>
                         <hr>
                         <div class="row ml-2">
                             <form method="post" action="" id="1">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">原密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</span>
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Old Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</span>
                                     </div>
                                     <input type="password" class="form-control" aria-label="Default"
                                            aria-describedby="inputGroup-sizing-default" name="password">
@@ -63,7 +63,7 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">新密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <span class="input-group-text" id="inputGroup-sizing-default">New Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                     </div>
                                     <input type="password" class="form-control" aria-label="Default"
                                            aria-describedby="inputGroup-sizing-default" name="password1">
@@ -71,7 +71,7 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">确认新密码</span>
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Confirm new passwd</span>
                                     </div>
                                     <input type="password" class="form-control" aria-label="Default"
                                            aria-describedby="inputGroup-sizing-default" name="password2">
@@ -79,40 +79,40 @@
 
                                 <input type="text" name="way" value="password" class="invisible">
 
-                                <button type="submit" class="btn btn-primary float-right">确认修改</button>
+                                <button type="submit" class="btn btn-primary float-right">Confirm</button>
                             </form>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                          aria-labelledby="v-pills-messages-tab">
-                        <h1>地址修改</h1>
+                        <h1>Address Modify</h1>
                         <hr>
                         <div class="row">
                             <div class="col-12">
                                 <form action="" method="post" id="2">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroup-sizing-default">新收货地址</span>
+                                            <span class="input-group-text" id="inputGroup-sizing-default">New Address</span>
                                         </div>
                                         <input type="text" class="form-control" aria-label="Default"
                                                aria-describedby="inputGroup-sizing-default" name="address">
                                     </div>
                                     <input type="text" name="way" value="address" class="invisible">
 
-                                    <button type="submit" class="btn btn-primary float-right">确认修改</button>
+                                    <button type="submit" class="btn btn-primary float-right">Confirm</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                          aria-labelledby="v-pills-settings-tab">
-                        <h1>昵称修改</h1>
+                        <h1>Name Modify</h1>
                         <hr>
                         <div class="row ml-2">
                             <form method="post" action="" id="3">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">原昵称</span>
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Old name</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Default"
                                            aria-describedby="inputGroup-sizing-default" name="alia">
@@ -120,23 +120,23 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">新昵称</span>
+                                        <span class="input-group-text" id="inputGroup-sizing-default">New name</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Default"
                                            aria-describedby="inputGroup-sizing-default" name="alia1">
                                 </div>
 
                                 <input type="text" name="way" value="Alia" class="invisible">
-                                <button type="submit" class="btn btn-primary float-right">确认修改</button>
+                                <button type="submit" class="btn btn-primary float-right">Confirm</button>
                             </form>
                         </div>
                     </div>
 
-                    <!-- 管理员功能  -->
+                    <!-- Admin function  -->
                     {% if admin == 1 %}
                         <div class="tab-pane fade" id="v-pills-add" role="tabpanel"
                              aria-labelledby="v-pills-add-tab">
-                            <h1>物品添加</h1>
+                            <h1>Add things</h1>
                             <hr>
                             <div class="row ml-2">
 
@@ -179,7 +179,7 @@
 
                         <div class="tab-pane fade" id="v-pills-class" role="tabpanel"
                              aria-labelledby="v-pills-class-tab">
-                            <h1>物品分类</h1>
+                            <h1>Classify things</h1>
 
                             <hr>
                             <div class="row ml-2">
@@ -189,7 +189,7 @@
                                     <input type="text" name="way" value="class" class="invisible">
 
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">选择物品</label>
+                                        <label for="exampleFormControlSelect1">Select good</label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="good_name">
                                             {% for good in all_goods %}
                                                 <option value="{{ good.id }}">{{ good.good_name }}</option>
@@ -198,9 +198,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleFormControlInput1">物品分类</label>
+                                        <label for="exampleFormControlInput1">Classify name</label>
                                         <input type="text" class="form-control" id="exampleFormControlInput1"
-                                               placeholder="请输入分类名称" name="good_class">
+                                               placeholder="Please input the class name" name="good_class">
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">ADD</button>

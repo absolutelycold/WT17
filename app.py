@@ -22,10 +22,11 @@ def check_login(fun):
     return wrap
 
 
-# 从session中取出登录信息, 并设置为上下文变量
-# 分类信息也要设置为上下文变量
-# 添加所有物品到上下文变量
-# 添加Total Price
+# Add global variable in Jinja2:
+# 1. the user info in the session
+# 2. Class names
+# 3. All goods
+# 4. Total price
 @app.context_processor
 def check_user():
     user_account = session.get('user_account')
@@ -67,7 +68,7 @@ def index(page=1):
                 db.session.add(new_cart)
                 db.session.commit()
             goods = Goods.query.filter().paginate(page, config.POSTS_PER_PAGE, False)
-            return render_template('index.html', goods=goods, status=1, color='success', alert='添加到购物车成功!')
+            return render_template('index.html', goods=goods, status=1, color='success', alert='Add to cart successfully!')
         else:
             return redirect(url_for('login'))
 
@@ -77,7 +78,7 @@ def index(page=1):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # 如果登录过了, 就不可以再次登录
+    # if you have already loged in, then you needn't login again
     if session.get('user_account'):
         return redirect(url_for('index'))
 
@@ -90,7 +91,7 @@ def login():
         user = Users.query.filter(Users.account == account, Users.password == password).first()
         if user:
             session['user_account'] = user.account
-            # 如果checkbox被选中, 设置session的cookies有效期为31天
+            # if the checkbox has been selected, set the efficient day of the cookies is 31 days
             if checkbox:
                 session.permanent = True
             return redirect(url_for('index'))
@@ -110,7 +111,7 @@ def register():
         repass = request.form.get('repassword').strip()
         address = request.form.get('address').strip()
 
-        # 检查重名
+        # Check whether the name is already in the database
         user1 = Users.query.filter(Users.name == name).first()
         if user1:
             status = 1
@@ -156,51 +157,51 @@ def modifyInfo():
             password2 = request.form.get('password2').strip()
             if (password == '') or (password1 == '') or (password2 == ''):
                 status = 1
-                return render_template('user_page.html', status=status, alert='请勿留空', message='请再次输入密码!')
+                return render_template('user_page.html', status=status, alert='Somthing empty', message='Please input password again!')
             elif user.password != password:
                 status = 1
-                return render_template('user_page.html', status=status, alert='原密码输入错误', message='请再次输入密码!')
+                return render_template('user_page.html', status=status, alert='old password wrong', message='Please input it again!')
             elif password1 != password2:
                 status = 1
-                return render_template('user_page.html', status=status, alert='两次密码不一致', message='请再重新输入!')
+                return render_template('user_page.html', status=status, alert='passwords doesn\'t match', message='Please input it again!')
             else:
                 user.password = password1
                 db.session.commit()
                 session.clear()
                 status = 1
-                return render_template('user_page.html', color='success', status=status, alert='成功修改密码',
-                                       message='请重新登录!')
+                return render_template('user_page.html', color='success', status=status, alert='Modify seccussfully',
+                                       message='Please login again!')
         elif way == 'address':
             address = request.form.get('address').strip()
             if address == '':
                 status = 1
-                return render_template('user_page.html', status=status, alert='新地址为空', message='请重新输入!')
+                return render_template('user_page.html', status=status, alert='New address is empty', message='Please input it again!')
             else:
                 user.address = address
                 db.session.commit()
                 status = 1
-                return render_template('user_page.html', color='success', status=status, alert='修改地址成功')
+                return render_template('user_page.html', color='success', status=status, alert='Modify address successfully')
         elif way == 'Alia':
             alia = request.form.get('alia')
             alia1 = request.form.get('alia1')
             if (alia == '') or (alia1 == ''):
                 status = 1
-                return render_template('user_page.html', status=status, alert='请勿留空!')
+                return render_template('user_page.html', status=status, alert='Something empty!')
             elif alia != user.name:
                 status = 1
-                return render_template('user_page.html', status=status, alert='原昵称输入错误!!', message='请再次输入.')
+                return render_template('user_page.html', status=status, alert='Old name is wrong!!', message='Please input it again.')
             else:
                 check_user = Users.query.filter(Users.name == alia1).first()
-                # 检查user表中是否已经存在名字是新名字的用户
+                # check whether the name has already in the database
                 if check_user:
                     status = 1
-                    return render_template('user_page.html', status=status, alert='此用户名已存在!!', message='请换一个用户名再次输入.')
+                    return render_template('user_page.html', status=status, alert='The name already existed!!', message='Please change a name.')
                 else:
                     user.name = alia1
                     db.session.commit()
                     status = 1
-                    return render_template('user_page.html', status=status, color='success', alert='修改昵称成功',
-                                           message='请殿下查阅.')
+                    return render_template('user_page.html', status=status, color='success', alert='name modify successfully',
+                                           message='Please check it in the user info tab.')
         elif way == 'class':
             selected_good = request.form.get('good_name')
             class_name = request.form.get('good_class')
@@ -221,7 +222,7 @@ def modifyInfo():
                 # Modify the good's class
                 good.class_id = Goods_class.query.filter(Goods_class.class_name == class_name).first().class_id
                 db.session.commit()
-            return render_template('user_page.html', status=1, color='success', alert='添加分类成功。')
+            return render_template('user_page.html', status=1, color='success', alert='Add class successfully。')
         elif way == 'add_good':
             good_name = request.form.get('good_name')
             good_desc = request.form.get('good_desc')
@@ -230,7 +231,7 @@ def modifyInfo():
             new_good = Goods(good_name=good_name, good_desc=good_desc, good_price=good_price, picture_url=picture_url)
             db.session.add(new_good)
             db.session.commit()
-            return render_template('user_page.html', status=1, color='success', alert='物品添加成功。')
+            return render_template('user_page.html', status=1, color='success', alert='Add good successfully。')
 
 
 @app.route('/search/', methods=['POST', 'GET'])
@@ -256,7 +257,7 @@ def search(page=1, search_strin=''):
             search_goods = Goods.query.filter(Goods.good_name.like('%''%')).paginate(page, 6,
                                                                                                      False)
             return render_template('search.html', search_goods=search_goods, search_string=search_str, status=1,
-                                   color='success', alert='添加到购物车成功!')
+                                   color='success', alert='Add to cart successfully!')
         else:
             return redirect(url_for('login'))
 
@@ -294,7 +295,7 @@ def class_page(name, page=1):
             class_id = Goods_class.query.filter(Goods_class.class_name == name).first().class_id
             class_goods = Goods.query.filter(Goods.class_id == class_id).paginate(page, 6, False)
             return render_template('class_page.html', class_goods=class_goods, class_name=name, status=1,
-                                   color='success', alert='添加到购物车成功!')
+                                   color='success', alert='Add to cart successfully!')
         else:
             return redirect(url_for('login'))
 
@@ -336,7 +337,7 @@ def cart():
             for good in user_goods:
                 db.session.delete(good)
                 db.session.commit()
-            return render_template('cart.html', status='1', color='success', alert='支付成功。')
+            return render_template('cart.html', status='1', color='success', alert='Successfully paid all things。')
 
 
 # add a self filter to get goods from goods id

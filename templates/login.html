@@ -1,6 +1,6 @@
 {% extends 'head.html' %}
 
-{% block title %}登录{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -17,7 +17,7 @@
             <div class="col" style="text-align:center;">
                 {% if status == 0 %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>错误!</strong> 账号或密码错误!请确认账号或密码后再次登录!
+                        <strong>Wrong!</strong> Account or Password incorrect!Please Login again!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -35,7 +35,7 @@
                     <form method="post" action="">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">账号</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">Account</span>
                             </div>
                             <input type="text" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="account">
@@ -43,7 +43,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">密码</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                             </div>
                             <input type="password" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="password">
@@ -57,9 +57,9 @@
 
 
 
-                        <input type="submit" class="btn btn-outline-secondary" value="登录"/>
+                        <input type="submit" class="btn btn-outline-secondary" value="Login"/>
                         <a href="{{ url_for('register') }}" class="btn btn-outline-secondary float-right" role="button"
-                           aria-pressed="true">注册</a>
+                           aria-pressed="true">Register</a>
                     </form>
                 </div>
                 <div class="col-md-4"></div>

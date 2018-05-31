@@ -1,6 +1,6 @@
 {% extends 'head.html' %}
 
-{% block title %}注册{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -17,35 +17,35 @@
             <div class="col" style="text-align:center;">
                 {% if status == 1 %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>警告!</strong> 昵称已存在!
+                        <strong>Warning!</strong> The name has already existed!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 {% elif status == 2 %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>警告!</strong> 账号已存在!
+                        <strong>Warning!</strong> The account has already existed!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 {% elif status == 3 %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>错误!</strong> 两次输入密码不匹配!
+                        <strong>Wrong!</strong> Passwords doesn't match!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 {% elif status == 4 %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>错误!</strong> 请勿将表单留空!!
+                        <strong>Wrong!</strong> Something empty in the tables!!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                  {% elif status == 5 %}
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>注册成功!</strong> 请点击<a href="{{ url_for('login') }}" class="alert-link">此处</a>进行登录.
+                        <strong>Success!</strong> Click <a href="{{ url_for('login') }}" class="alert-link">HERE</a>to login.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -64,7 +64,7 @@
                     <form method="post" action="">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">昵称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             </div>
                             <input type="text" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="name">
@@ -72,7 +72,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">账号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">account&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             </div>
                             <input type="text" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="account">
@@ -80,7 +80,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             </div>
                             <input type="password" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="password">
@@ -88,7 +88,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">确认密码</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">repasswd</span>
                             </div>
                             <input type="password" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="repassword">
@@ -96,7 +96,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">收货地址</span>
+                                <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
                             </div>
                             <input type="text" class="form-control" aria-label="Default"
                                    aria-describedby="inputGroup-sizing-default" name="address">
@@ -105,7 +105,7 @@
 
                         <hr/>
 
-                        <input type="submit" class="btn btn-outline-secondary btn-block" value="确认注册"/>
+                        <input type="submit" class="btn btn-outline-secondary btn-block" value="Confirm"/>
                     </form>
                 </div>
                 <div class="col-md-4"></div>

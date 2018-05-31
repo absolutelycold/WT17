@@ -11,11 +11,11 @@ DEBUG = True
 # The setting for database
 DIALECT = 'mysql'
 DRIVER = 'pymysql'
-USERNAME = 'root'
-PASSWORD = '123'
-ADDRESS = '127.0.0.1'
+USERNAME = 'l630003036'
+PASSWORD = 'student'
+ADDRESS = '172.16.199.70'
 PORT = '3306'
-DATABASE = 'flask_study'
+DATABASE = 'l630003036'
 CHARSET = 'utf8'
 SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset={}'.format(DIALECT, DRIVER, USERNAME, PASSWORD, ADDRESS, PORT, DATABASE, CHARSET)
 
